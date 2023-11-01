@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+#define MAX_VERTICES 100
+
+// Graph structure
+struct Graph {
+    int vertices;
+    int adj_matrix[MAX_VERTICES][MAX_VERTICES];
+};
+
+// Function to initialize the graph
+void initGraph(struct Graph *graph, int vertices) {
+    graph->vertices = vertices;
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            graph->adj_matrix[i][j] = 0; // Initialize all edges as 0 (no connection)
+        }
+    }
+}
+
+// Function to add an edge between two vertices
+void addEdge(struct Graph *graph, int start, int end) {
+    if (start >= 0 && end >= 0 && start < graph->vertices && end < graph->vertices) {
+        graph->adj_matrix[start][end] = 1;
+        // For undirected graph, uncomment the line below
+        // graph->adj_matrix[end][start] = 1;
+    } else {
+        printf("Invalid vertices.\n");
+    }
+}
+
+// Function to print the adjacency matrix
+void printGraph(struct Graph *graph) {
+    printf("Adjacency Matrix Representation of the Graph:\n");
+    for (int i = 0; i < graph->vertices; i++) {
+        for (int j = 0; j < graph->vertices; j++) {
+            printf("%d ", graph->adj_matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    struct Graph myGraph;
+    int totalVertices, totalEdges, start, end;
+
+    printf("Enter the number of vertices in the graph: ");
+    scanf("%d", &totalVertices);
+
+    initGraph(&myGraph, totalVertices);
+
+    printf("Enter the number of edges: ");
+    scanf("%d", &totalEdges);
+
+    printf("Enter the edges (format: start end):\n");
+    for (int i = 0; i < totalEdges; i++) {
+        scanf("%d %d", &start, &end);
+        addEdge(&myGraph, start, end);
+    }
+
+    printGraph(&myGraph);
+
+    return 0;
+}
